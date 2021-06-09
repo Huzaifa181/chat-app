@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^12.6.0",
     "antd": "^4.13.1",
     "history": "^5.0.0",
+    "pusher-js": "^7.0.3",
     "react": "^17.0.1",
     "react-closeable-tabs": "^1.1.5",
     "react-datepicker": "^3.4.1",
