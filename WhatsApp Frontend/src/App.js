@@ -22,16 +22,22 @@ function App() {
       cluster: 'ap2'
     });
 
-    var channel = pusher.subscribe('inserted');
-    channel.bind('messages', function(data) {
-      alert(JSON.stringify(data));
+    var channel = pusher.subscribe('message');
+    console.log(channel)
+    channel.bind('inserted', (newMessage)=> {
+      setMessages([...messages,newMessage])
     });
-  })
+    return()=>{
+      channel.unbind_all();
+      channel.unsubscribe()
+    }
+  },[messages])
+  console.log(messages)
   return (
     <div className='app'>
         <div className='app__body'>
         <Sidebar/>
-        <Chat/>
+        <Chat messages={messages}/>
         </div>      
   </div>
   );

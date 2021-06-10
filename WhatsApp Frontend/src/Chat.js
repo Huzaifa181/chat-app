@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {Avatar,IconButton} from '@material-ui/core';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -7,7 +7,19 @@ import MicIcon from '@material-ui/icons/Mic';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon'
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
 import './Chat.css'
-const Chat = () => {
+import axios from './axios'
+const Chat = ({messages}) => {
+    const [input, setInput]=useState("")
+    const sentMessage=async (e)=>{
+        e.preventDefault();
+        await axios.post('/messages/new',{
+            message:input,
+            name:"Huzaifa",
+            timestamp:new Date().toUTCString(),
+            received:false
+        })
+        setInput('')
+    }
     return (
         <div className='chat'>
            <div className='chat__header'>
@@ -30,110 +42,25 @@ const Chat = () => {
                 </div>
             </div>
             <div className='chat__body'>
-                <p className='chat__message'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
+                {messages.map(mssg=>{
+                    return(
+
+                <p className={`chat__message ${mssg.received && "chat__receiver"}`}>
+                    <span className='chat__name'>{mssg.name}</span>
+                    {mssg.message}
                     <span className="chat__timestamp">
-                        {new Date().toUTCString()}
+                        {mssg.timestamp}
                     </span>
                 </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
-                <p className='chat__message chat__receiver'>
-                    <span className='chat__name'>Huzaifa</span>
-                    This is a message
-                    <span className="chat__timestamp">
-                        {new Date().toUTCString()}
-                    </span>
-                </p>
+                    )
+                })}
+               
             </div>
             <div className='chat__footer'>
                 <InsertEmoticonIcon style={{color:"gray"}}/>
                 <form>
-                    <input placeholder="Type a message" type="text"/>
-                    <button type="submit">Send a message</button>
+                    <input value={input} onChange={e=>setInput(e.target.value)} placeholder="Type a message" type="text"/>
+                    <button onClick={(e)=>sentMessage(e)} type="submit">Send a message</button>
                 </form>
                 <MicIcon style={{color:"gray"}}/>
             </div>
